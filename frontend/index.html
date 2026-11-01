@@ -41,6 +41,9 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .ucoin,.fly{background:radial-gradient(circle at 34% 28%,#dcfff0,#48dca4 42%,#17a571 72%,#0d7a52 100%)}
 .ucoin{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 -1px 0 rgba(6,70,46,.45),inset 0 0 0 1px rgba(210,255,235,.45),0 1px 4px rgba(34,199,132,.35)}
 .ucoin svg{width:15px;height:15px}
+.pills{display:flex;align-items:center;gap:8px}
+.gcoin{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%,#fff6cf,#ffd34d 42%,#e8a70f 72%,#a86f00 100%);box-shadow:inset 0 -1px 0 rgba(110,70,0,.45),inset 0 0 0 1px rgba(255,244,200,.5),0 1px 4px rgba(240,170,20,.35)}
+.gcoin svg{width:14px;height:14px}
 .usdt .v{display:flex;align-items:baseline;gap:5px;line-height:1}.usdt b{font:700 15px var(--font);font-variant-numeric:tabular-nums}.usdt i{font:600 12px var(--font);font-style:normal;color:var(--hint)}
 
 .scroll{position:absolute;top:calc(var(--st) + var(--tb));left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:6px max(16px,env(safe-area-inset-right,0px)) 150px max(16px,env(safe-area-inset-left,0px));scrollbar-width:none}
@@ -132,7 +135,10 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 
   <header class="top">
     <div class="ava" aria-label="Your profile"><span><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="avg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fb4cf"/><stop offset="1" stop-color="#6f86a6"/></linearGradient></defs><circle cx="16" cy="12.4" r="5.6" fill="url(#avg)"/><path d="M5.5 30c.6-6.6 5-10.4 10.5-10.4S25.9 23.4 26.5 30z" fill="url(#avg)"/></svg></span></div>
-    <div class="usdt" id="pill"><span class="ucoin"><svg viewBox="0 0 24 24" fill="#fff"><rect x="5.6" y="5" width="12.8" height="3" rx=".9"/><rect x="10.5" y="5" width="3" height="14" rx=".9"/><path d="M7.4 13.2 16.6 10.9" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="v"><b id="bal">0.0482</b><i>USDT</i></span></div>
+    <div class="pills">
+      <div class="usdt" id="gpill"><span class="gcoin"><svg viewBox="0 0 24 24" fill="#8a5a00"><path d="M3 8l4.5 3.5L12 5l4.5 6.5L21 8l-2 10H5z"/></svg></span><span class="v"><b id="gold">0</b></span></div>
+      <div class="usdt" id="pill"><span class="ucoin"><svg viewBox="0 0 24 24" fill="#fff"><rect x="5.6" y="5" width="12.8" height="3" rx=".9"/><rect x="10.5" y="5" width="3" height="14" rx=".9"/><path d="M7.4 13.2 16.6 10.9" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="v"><b id="bal">0.0482</b></span></div>
+    </div>
   </header>
 
   <div class="scroll" id="scroll">
