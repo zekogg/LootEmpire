@@ -57,7 +57,6 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   background:radial-gradient(90% 55% at 50% 42%,rgba(61,157,242,.07),transparent 70%),linear-gradient(180deg,#212b39 0%,#1c2531 100%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 1px rgba(255,255,255,.02),0 14px 32px rgba(0,0,0,.24)}
 .head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:0 2px}
-.kick{margin:0 0 2px;color:var(--hint);font:500 12.5px var(--font)}
 .head h2{margin:0;font:700 18px var(--font);letter-spacing:-.02em}
 
 
@@ -74,7 +73,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .act.start{background:linear-gradient(180deg,#58aef8,#2f88e6);box-shadow:0 10px 26px rgba(61,157,242,.36),inset 0 1px 0 rgba(255,255,255,.35)}
 .act.collect{background:linear-gradient(180deg,#3fe09a,#16a96c);box-shadow:0 10px 26px rgba(34,199,132,.34),inset 0 1px 0 rgba(255,255,255,.38);text-shadow:0 1px 0 rgba(0,80,45,.3)}
 .act.done{background:rgba(255,255,255,.07);color:var(--hint);box-shadow:none}
-.act.mining{background:#2a3646;color:#b9c7d8;box-shadow:inset 0 1px 0 rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
+.act.mining{--fill:0%;background:linear-gradient(90deg,#163f48 var(--fill),#2a3646 var(--fill));color:#8fe3ee;box-shadow:inset 0 1px 0 rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
 .act.mining svg{width:18px;height:18px}
 .act:active{transform:scale(.98)}.act[disabled]{opacity:.5;cursor:default}.act.done[disabled],.act.mining[disabled]{opacity:1}
 .act svg{width:16px;height:16px}
@@ -145,13 +144,13 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     <section class="view on" data-v="earn">
       <div class="card">
         <div class="head">
-          <div><p class="kick" id="goldRate">100 Gold / hour</p><h2>Frog Tour</h2></div>
+          <div><h2>Frog Tour</h2></div>
         </div>
         <div class="stg" id="orb" data-s="idle"><canvas id="tvc" aria-label="TV on a media console showing a neon city"></canvas><div class="slot" id="mascot"></div></div>
         <div class="unc">
           <div class="l">Unclaimed Gold</div>
           <div class="a" id="uncGold">0.0000</div>
-          <div class="s">Cycle <b id="cyc">2/5</b> · Storage <b id="pct">0%</b></div>
+          <div class="s">Cycle <b id="cyc">2/5</b> · <b id="goldRate">100 Gold / hour</b></div>
         </div>
         <button class="act start" id="act" type="button"></button>
       </div>
@@ -340,11 +339,10 @@ const act=$('#act');
 let mode='';
 function render(){
   $('#cyc').textContent=(st.done+(st.running?1:0))+'/'+CYCLES;$('#uncGold').textContent=st.uncGold.toFixed(4);
-  $('#pct').textContent=Math.round(Math.min(100,st.uncGold/GOLD_PER_CYCLE*100))+'%';
   const m=st.running?'mining':st.uncGold>=1e-6?'collect':st.done<CYCLES?'start':'done';
   if(m!==mode){mode=m;act.className='act '+m;
     act.innerHTML=m==='mining'?ICON_CLOCK+'<span>Collect in <span id="collectIn"></span></span>':m==='collect'?'Collect Rewards':m==='start'?ICON_START+'Start':'Come back tomorrow'}
-  if(m==='mining')$('#collectIn').textContent=fmtT(st.left);
+  if(m==='mining'){$('#collectIn').textContent=fmtT(st.left);act.style.setProperty('--fill',((LEN-st.left)/LEN*100).toFixed(2)+'%')}
   act.disabled=m==='done'||m==='mining'}
 function setRunning(on){st.running=on;Mascot.set(on?'run':'idle');render()}
 setInterval(()=>{if(st.running){st.left--;st.uncGold=Math.min(GOLD_PER_CYCLE,(LEN-st.left)*GOLD_RATE);if(st.left<=0){st.done++;st.left=LEN;setRunning(false);return}}render()},1000);
