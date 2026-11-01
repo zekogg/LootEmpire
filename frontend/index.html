@@ -341,7 +341,7 @@ function render(){
   $('#cyc').textContent=(st.done+(st.running?1:0))+'/'+CYCLES;$('#uncGold').textContent=st.uncGold.toFixed(4);
   const m=st.running?'mining':st.uncGold>=1e-6?'collect':st.done<CYCLES?'start':'done';
   if(m!==mode){mode=m;act.className='act '+m;
-    act.innerHTML=m==='mining'?ICON_CLOCK+'<span>Collect in <span id="collectIn"></span></span>':m==='collect'?'Collect Rewards':m==='start'?ICON_START+'Start':'Come back tomorrow'}
+    act.innerHTML=m==='mining'?ICON_CLOCK+'<span>Collect in <span id="collectIn"></span></span>':m==='collect'?'Collect Rewards':m==='start'?ICON_START+'Start Tour':'Come back tomorrow'}
   if(m==='mining'){$('#collectIn').textContent=fmtT(st.left);act.style.setProperty('--fill',((LEN-st.left)/LEN*100).toFixed(2)+'%')}
   act.disabled=m==='done'||m==='mining'}
 function setRunning(on){st.running=on;Mascot.set(on?'run':'idle');render()}
