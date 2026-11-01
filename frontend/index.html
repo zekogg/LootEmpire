@@ -111,6 +111,22 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .earn.on+.ring{animation:ring 2.6s ease-out infinite}
 @keyframes ring{0%{box-shadow:0 0 0 5px rgba(255,154,61,.4)}70%,100%{box-shadow:0 0 0 17px rgba(255,154,61,0)}}
 @media (prefers-reduced-motion:reduce){.earn::after,.earn.on svg,.earn.on+.ring,.timer .p,.coin,.coin .f::after{animation:none!important}}
+/* ---------- maintenance screen ---------- */
+.maint{display:none;position:absolute;inset:0;z-index:999;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 28px;
+  background:radial-gradient(420px 340px at 50% 42%,rgba(255,154,61,.16),transparent 65%),var(--bg)}
+.maint.on{display:flex}
+.maint__badge{position:relative;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;margin-bottom:26px;
+  background:radial-gradient(circle at 50% 35%,#2b3646,#151c26);box-shadow:0 0 0 2px rgba(255,154,61,.55),0 0 34px rgba(255,154,61,.35),inset 0 2px 0 rgba(255,255,255,.06)}
+.maint__badge::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px dashed rgba(255,154,61,.35);animation:mspin 14s linear infinite}
+.maint__badge svg{width:52px;height:52px}
+.maint__title{font-weight:800;font-size:25px;letter-spacing:-.02em;margin-bottom:10px;
+  background:linear-gradient(90deg,#ffb15c,#ffe2a8 50%,#ff9a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.maint__text{font-size:14px;line-height:1.65;color:var(--hint);max-width:290px}
+.maint__safe{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:9px 16px;border-radius:999px;
+  background:rgba(61,157,242,.1);border:1px solid rgba(61,157,242,.25);color:var(--acc2);font-size:13px;font-weight:600}
+.maint__safe svg{width:16px;height:16px}
+@keyframes mspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.maint__badge::after{animation:none}}
 </style>
 </head>
 <body>
@@ -171,7 +187,30 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
         <circle cx="39" cy="42" r="5" fill="#2c2e34"/><circle cx="39" cy="42" r="3.6" fill="url(#gps)"/></svg>
     </button><span class="ring"></span>
   </nav>
+  <!-- Maintenance Screen -->
+  <div class="maint" id="maintenance-screen" role="alert">
+    <div class="maint__badge"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb15c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+    <div class="maint__title">Under Maintenance</div>
+    <div class="maint__text">The Loot Empire vaults are being upgraded.<br>We'll be back online shortly — thanks for your patience!</div>
+    <div class="maint__safe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Your loot is safe</div>
+  </div>
 </div></div>
+
+<script>
+// Maintenance Mode: true = everyone except the admin sees the maintenance screen
+var MAINTENANCE_MODE = true;
+var MAINTENANCE_ADMIN_ID = 99999;
+(function(){
+  var userId = null;
+  try{
+    var tw = window.Telegram && window.Telegram.WebApp;
+    if (tw && tw.initDataUnsafe && tw.initDataUnsafe.user) userId = tw.initDataUnsafe.user.id;
+  }catch(e){}
+  if (MAINTENANCE_MODE && userId !== MAINTENANCE_ADMIN_ID){
+    document.getElementById('maintenance-screen').classList.add('on');
+  }
+})();
+</script>
 
 <script>
 /* ---- TV stage (Canvas 2D, drawn once) ---- */
